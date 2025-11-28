@@ -4,7 +4,7 @@ import 'dart:core';
 import 'package:hive/hive.dart';
 
 class Apis {
-  static final String aiKey='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';
+  static final String aiKey='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';
   static final String aiUrl = 'https://openrouter.ai/api/v1/chat/completions';
   static final String model = 'nvidia/nemotron-nano-12b-v2-vl:free';                   // 'openai/gpt-oss-20b:free'
   static final String movie_key = "060a8a925d2fbfb9af161ebefc4d8fac";

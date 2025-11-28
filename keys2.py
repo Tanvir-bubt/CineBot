@@ -2,7 +2,7 @@ import json
 import requests
 
 API_URL='https://openrouter.ai/api/v1/chat/completions'
-API_KEY='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'
+API_KEY='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'
 MODEL='nvidia/nemotron-nano-12b-v2-vl:free'
 
 

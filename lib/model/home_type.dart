@@ -1,6 +1,6 @@
 import 'package:cinebot/screen/feature/chatbot_feature.dart';
 import 'package:cinebot/screen/feature/profile_feature.dart';
-import 'package:cinebot/screen/feature/trending_feature.dart';
+import 'package:cinebot/screen/feature/trending/trending_screen.dart';
 import 'package:cinebot/screen/feature/watchlist_feature.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +31,7 @@ extension MyHomeType on HomeType{
 
     VoidCallback get onTap => switch (this) {
     HomeType.whatToWatch => () => Get.to(() => const ChatbotFeature()),
-    HomeType.trendingNow => () => Get.to(() => const TrendingFeature()),
+    HomeType.trendingNow => () => Get.to(() => const TrendingScreen()),
     HomeType.watchList => () => Get.to(() => const WatchlistFeature()),
     HomeType.profile => () => Get.to(() => const ProfileFeature())
   };
