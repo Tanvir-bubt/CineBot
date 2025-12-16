@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cinebot/apis/apis.dart'; // import your Api class
+import 'package:cinebot/services/movie_service.dart'; // import your Api class
+import 'package:cinebot/services/apis.dart'; // import your Api class
 
 class WatchlistFeature extends StatefulWidget {
   const WatchlistFeature({super.key});
@@ -44,14 +45,14 @@ class _WatchlistFeatureState extends State<WatchlistFeature>
   }
 
   Widget _buildGrid(String flag) {
-    final movieNames = Apis.get_from_hive(flag); // fetch stored movie names
+    final movieNames = Apis.getFromHive(flag); // fetch stored movie names
 
     if (movieNames.isEmpty) {
       return const Center(child: Text('No movies added'));
     }
 
     return FutureBuilder<List<Map<String, String>>>(
-      future: Future.wait(movieNames.map((name) => Apis.getMovieInfo(name))),
+      future: Future.wait(movieNames.map((name) => MovieService.getMovieInfo(name))),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

@@ -1,4 +1,4 @@
-import 'package:cinebot/screen/feature/chatbot_feature.dart';
+import 'package:cinebot/screen/feature/chatbot/chatbot_feature.dart';
 import 'package:cinebot/screen/feature/profile_feature.dart';
 import 'package:cinebot/screen/feature/trending/trending_screen.dart';
 import 'package:cinebot/screen/feature/watchlist_feature.dart';
