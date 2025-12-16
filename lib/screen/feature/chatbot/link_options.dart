@@ -1,5 +1,5 @@
+import 'package:cinebot/services/hive_service.dart';
 import 'package:flutter/material.dart';
-import 'package:cinebot/services/apis.dart';
 
 class LinkOptions {
   static void show(BuildContext context, String movieName) {
@@ -31,7 +31,14 @@ class LinkOptions {
         onPressed: () async {
           Navigator.of(context).pop();
           try {
-            await Apis.addToHive(movieName, label);
+            int f = switch (label.toLowerCase()) {
+              'watch later' => 0,
+              'watching' => 1,
+              'watched' => 2,
+              _ => 0, // default fallback
+            };
+
+            await HvService.addOrUpdateMovie(movieName, f);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Added "$movieName" to "$label"')),
             );

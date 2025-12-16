@@ -27,9 +27,7 @@ class MovieService {
   }
 
   static Future<Map<String, String>> getMovieInfo(String query) async {
-    final url = Uri.parse(
-      'https://api.themoviedb.org/3/search/multi?query=${Uri.encodeComponent(query)}&api_key=$_apiKey',
-    );
+    final url = Uri.parse('https://api.themoviedb.org/3/search/multi?query=${Uri.encodeComponent(query)}&api_key=$_apiKey',);
 
     try {
       final response = await http.get(url);

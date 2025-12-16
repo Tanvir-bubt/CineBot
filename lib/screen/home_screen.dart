@@ -1,6 +1,6 @@
 import 'package:cinebot/helper/global.dart';
-import 'package:cinebot/helper/pref.dart';
 import 'package:cinebot/model/home_type.dart';
+import 'package:cinebot/services/hive_service.dart';
 import 'package:cinebot/widget/home_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    Pref.showOnboarding = false; // Set onboarding as completed
+    HvService.showOnboarding = false; // Set onboarding as completed
   }
 
   @override

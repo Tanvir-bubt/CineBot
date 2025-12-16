@@ -8,7 +8,7 @@ class ProfileFeature extends StatefulWidget {
 }
 
 class _ProfileFeatureState extends State<ProfileFeature> {
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -20,4 +20,3 @@ class _ProfileFeatureState extends State<ProfileFeature> {
     );
   }
 }
-

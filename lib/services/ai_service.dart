@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:cinebot/services/movie_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:cinebot/services/apis.dart'; // for getMovieInfo
 class AiService {
   // ------------------ Class-level constants ------------------
-  static const String _aiKey = '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';
+  static const String _aiKey ='sk-or-v1-';
   static const String _aiUrl = 'https://openrouter.ai/api/v1/chat/completions';
   static const String _model = 'nvidia/nemotron-nano-12b-v2-vl:free';
   static Map<String, String> get _headers => {
@@ -14,8 +13,15 @@ class AiService {
   static const String _systemContext = """
 Your name is CineBot. You reply in warm, short messages.
 When user asks for suggestions (anime, movie, tv show etc.), you STRICTLY give the suggestions in this format:
-<title> placeholder </title>
+<title> a movie name </title>
 <description> a little description of the movie here </description>
+**do not suggest like this**: 
+ no <movie name>
+ no **movie name**
+ no #movie name#
+ suggest movies only in this format:
+ <title> Movie name </title>
+ <description> a description of that movie </description>
 """;
   static final List<Map<String, String>> _messages = [];
   static final Map<String, dynamic> _requestMap = {
@@ -32,6 +38,7 @@ When user asks for suggestions (anime, movie, tv show etc.), you STRICTLY give t
 
   // ------------------ Private helpers ------------------
   static String _buildRequestBody(String userMessage) {
+//    _messages.clear();
     if (_messages.isEmpty) {
       _messages.add({
         'role': 'system',
@@ -107,7 +114,7 @@ When user asks for suggestions (anime, movie, tv show etc.), you STRICTLY give t
         print(content);
         if (content != null && content is String) {
           _messages.add({
-            'role': 'system',
+            'role': 'assistant',
             'content': content,
           });
 

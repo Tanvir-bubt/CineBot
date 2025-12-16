@@ -4,62 +4,42 @@ publish_to: 'none'
 
 #App version
 version: 1.0.0+1
-
+#
 environment:
   sdk: ^3.8.1
-
-#Dependencies
+#
+##Dependencies
 dependencies:
   flutter:
     sdk: flutter
 
-  markdown_widget: ^2.3.2+8
+  hive_ce: ^2.15.1            # Hive database community edition
+  hive_ce_flutter: ^2.3.3     # Hive flutter integrator
+  get: ^4.7.2              # For State Management
+  path_provider: ^2.1.3    # For Accessing Storage Path
+#
   flutter_dotenv: ^6.0.0
-
-
-#iOS style icons
+  markdown_widget: ^2.3.2+8
   cupertino_icons: ^1.0.8
+  lottie: ^3.3.1  #For using lottie animations
 
-#For using lottie animations
-  lottie: ^3.3.1
-
-# For Hive Database
-  # hive: ^4.0.0-dev.13
-  # isar_flutter_libs: ^4.0.0-dev.13
-
-  # Using this version due to less apk size
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-
-  # For Accessing Storage Path
-  path_provider: ^2.1.3
-
-  # For State Management
-  get: ^4.7.2
-
-  # For API Call
-  http: ^1.5.0
+  http: ^1.5.0            # For API Call
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-#Good practices lints
   flutter_lints: ^6.0.0
-
-
-#For generating app icons
+  build_runner: ^2.4.7        # The program that executes the code generators
+  hive_ce_generator: ^1.10.1  # The generator specific to Hive CE, creates TypeAdapters
+#
+##For generating app icons
   # icons_launcher: ^3.0.2
 
 
 flutter:
-
-#Enable Material Design
   uses-material-design: true
-
-  #To add assets to your application, add an assets section, like this:
   assets:
-#    - .env
+    - .env
     - assets/images/
     - assets/lottie/
   #fonts:
@@ -73,4 +53,3 @@ flutter:
   #         - asset: fonts/TrajanPro.ttf
   #         - asset: fonts/TrajanPro_Bold.ttf
   #           weight: 700
-  
