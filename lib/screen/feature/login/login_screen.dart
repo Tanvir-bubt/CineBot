@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:cinebot/services/hive_service.dart';
 import 'package:cinebot/screen/feature/login/login_feature.dart';
 import 'package:cinebot/screen/onboarding_screen.dart';
-import 'package:cinebot/screen/home_screen.dart';
+import 'package:cinebot/core/routing/app_shell.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,15 +13,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-final _formKey = GlobalKey<FormState>();
-final TextEditingController _emailController = TextEditingController();
-final TextEditingController _nameController = TextEditingController();
-final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-bool _isLogin = true;
-bool _loading = false;
+  bool _isLogin = true;
+  bool _loading = false;
 
-// Toggle login/register mode
+  // Toggle login/register mode
   void _toggleMode() {
     setState(() {
       _isLogin = !_isLogin;
@@ -31,7 +31,7 @@ bool _loading = false;
     });
   }
 
-// Submit handler
+  // Submit handler
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -55,12 +55,13 @@ bool _loading = false;
         if (HvService.showOnboarding) {
           Get.offAll(() => const OnboardingScreen());
         } else {
-          Get.offAll(() => const HomeScreen());
+          Get.offAll(() => const AppShell());
         }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       setState(() => _loading = false);
     }
@@ -119,7 +120,8 @@ bool _loading = false;
                       ),
                       keyboardType: TextInputType.emailAddress,
                       validator: (v) {
-                        if (v == null || v.isEmpty) return 'Please enter your email';
+                        if (v == null || v.isEmpty)
+                          return 'Please enter your email';
                         if (!v.contains('@')) return 'Enter a valid email';
                         return null;
                       },
@@ -135,7 +137,8 @@ bool _loading = false;
                       ),
                       obscureText: true,
                       validator: (v) {
-                        if (v == null || v.isEmpty) return 'Please enter password';
+                        if (v == null || v.isEmpty)
+                          return 'Please enter password';
                         if (v.length < 4) return 'Password too short';
                         return null;
                       },
@@ -154,7 +157,9 @@ bool _loading = false;
                           ),
                         ),
                         child: _loading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
                             : Text(_isLogin ? 'Login' : 'Register'),
                       ),
                     ),

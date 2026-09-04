@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:cinebot/core/routing/app_shell.dart';
 import 'package:cinebot/helper/global.dart';
-import 'package:cinebot/screen/home_screen.dart';
 import 'package:cinebot/screen/onboarding_screen.dart';
 import 'package:cinebot/services/hive_service.dart';
 import 'package:cinebot/widget/custom_loading.dart';
@@ -28,16 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
       } else if (HvService.showOnboarding) {
         Get.off(() => const OnboardingScreen());
       } else {
-        Get.off(() => const HomeScreen());
+        Get.off(() => const AppShell());
       }
     });
   }
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +47,14 @@ class _SplashScreenState extends State<SplashScreen> {
             Card(
               color: const Color.fromARGB(255, 255, 255, 255),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.all(Radius.circular(20))),
+                borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
+              ),
               child: Padding(
-
                 padding: EdgeInsets.all(paddingValue),
-                child: Image.asset('assets/images/home.png',
-                 width: mq.width *  .45
-                 ),
+                child: Image.asset(
+                  'assets/images/home.png',
+                  width: mq.width * .45,
+                ),
               ),
             ),
             const Spacer(),
