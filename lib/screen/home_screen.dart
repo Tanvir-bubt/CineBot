@@ -4,7 +4,6 @@ import 'package:cinebot/services/hive_service.dart';
 import 'package:cinebot/widget/home_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:cinebot/widget/app_sidebar.dart'; // ✅ Import Sidebar
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,62 +16,119 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    HvService.showOnboarding = false; // Set onboarding as completed
+    HvService.showOnboarding = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    // Initialize the media query variable for global use
     mq = MediaQuery.sizeOf(context);
 
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     return Scaffold(
-      appBar: AppBar(
-        elevation: 1,
-        centerTitle: true,
-        backgroundColor: Colors.white60,
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'Cine',
-                style: TextStyle(
-                  color: const Color.fromRGBO(0, 27, 61, 1), // Navy for Cine
-                  fontSize: 26,
-                  fontWeight: FontWeight.w900,
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                mq.width * 0.06,
+                24,
+                mq.width * 0.06,
+                8,
+              ),
+              sliver: SliverToBoxAdapter(child: _buildHeader(textTheme)),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                mq.width * 0.06,
+                24,
+                mq.width * 0.06,
+                8,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: Text(
+                  'What are you in the mood for?',
+                  style: textTheme.headlineMedium,
                 ),
               ),
-              TextSpan(
-                text: 'Bot',
-                style: TextStyle(
-                  color: const Color.fromRGBO(0, 191, 99, 0.5019607843137255), // Green for Bot
-                  fontSize: 26,
-                  fontWeight: FontWeight.w900,
-                ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                mq.width * 0.04,
+                8,
+                mq.width * 0.04,
+                32,
               ),
-            ],
-          ),
+              sliver: SliverList.builder(
+                itemCount: HomeType.values.length,
+                itemBuilder: (context, index) {
+                  return HomeCard(homeType: HomeType.values[index]);
+                },
+              ),
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            padding: const EdgeInsets.only(right: 10),
-            onPressed: () {},
-            icon: Icon(Icons.brightness_4_rounded, color: Colors.grey),
-          )
-        ],
       ),
+    );
+  }
 
-      drawer: const AppSidebar(), // ✅ Added Sidebar Here
-
-      body: ListView(
-        padding: EdgeInsets.symmetric(
-          horizontal: mq.width * .03,
-          vertical: mq.height * .01,
+  Widget _buildHeader(TextTheme textTheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 46,
+              height: 46,
+              decoration: BoxDecoration(
+                color: const Color(0xFF6C63FF).withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Icon(
+                Icons.movie_creation_outlined,
+                color: Color(0xFF6C63FF),
+                size: 25,
+              ),
+            ),
+            const SizedBox(width: 14),
+            RichText(
+              text: const TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Cine',
+                    style: TextStyle(
+                      color: Color(0xFFF5F5F7),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Bot',
+                    style: TextStyle(
+                      color: Color(0xFF6C63FF),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-        children: HomeType.values
-            .map((e) => HomeCard(homeType: e))
-            .toList(),
-      ),
+        const SizedBox(height: 28),
+        Text('Welcome back 👋', style: textTheme.bodyMedium),
+        const SizedBox(height: 6),
+        Text('Find your next favorite movie.', style: textTheme.displayMedium),
+        const SizedBox(height: 10),
+        Text(
+          'Explore, discover and keep track of movies you love.',
+          style: textTheme.bodyMedium,
+        ),
+      ],
     );
   }
 }

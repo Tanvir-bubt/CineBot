@@ -1,78 +1,105 @@
-import 'package:cinebot/helper/global.dart';
 import 'package:cinebot/model/home_type.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeCard extends StatelessWidget {
-  
   final HomeType homeType;
 
   const HomeCard({super.key, required this.homeType});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: homeType.onTap,
-      child: Card(
-        color: const Color.fromRGBO(0, 191, 99, 0.4), // Soft tint of Bot Green
-        elevation: 2, // Slight elevation for better contrast
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        margin: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 10),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Lottie animation
-              Lottie.asset(
-                'assets/lottie/${homeType.lottie}',
-                width: mq.width * 0.25, // Slightly smaller for better balance
-                fit: BoxFit.contain,
-              ),
-      
-              // Text + Icon (for better visual hierarchy)
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text.rich(
-                    TextSpan(
-                      text: homeType.title,
-                      style: const TextStyle(
-                        color: Color.fromRGBO(0, 27, 61, 1), // Use Cine Navy for text
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      children: [
-                        if (homeType.subtitle.isNotEmpty)
-                          TextSpan(
-                            text: '\n${homeType.subtitle}',
-                            style: const TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black54,
-                            ),
-                          ),
-                      ],
-                    ),
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-      
-              // Optional arrow icon to make it feel tappable
-              const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Color.fromRGBO(0, 191, 99, 0.403921568627451),
-                size: 20,
-              ),
-            ],
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+      child: Material(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(20),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: homeType.onTap,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 120),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
+            ),
+            child: Row(
+              children: [
+                _buildAnimation(),
+                const SizedBox(width: 16),
+                Expanded(child: _buildContent(textTheme)),
+                const SizedBox(width: 8),
+                _buildArrow(theme),
+              ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildAnimation() {
+    return Container(
+      width: 82,
+      height: 82,
+      decoration: BoxDecoration(
+        color: const Color(0xFF6C63FF).withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      padding: const EdgeInsets.all(6),
+      child: Lottie.asset(
+        'assets/lottie/${homeType.lottie}',
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+
+  Widget _buildContent(TextTheme textTheme) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          homeType.title,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: textTheme.titleMedium?.copyWith(
+            color: const Color(0xFFF5F5F7),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        if (homeType.subtitle.isNotEmpty) ...[
+          const SizedBox(height: 6),
+          Text(
+            homeType.subtitle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: textTheme.bodySmall?.copyWith(
+              color: const Color(0xFFA6A6B0),
+              height: 1.35,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildArrow(ThemeData theme) {
+    return Container(
+      width: 36,
+      height: 36,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primary.withValues(alpha: 0.12),
+        shape: BoxShape.circle,
+      ),
+      child: Icon(
+        Icons.arrow_forward_rounded,
+        color: theme.colorScheme.primary,
+        size: 19,
       ),
     );
   }
